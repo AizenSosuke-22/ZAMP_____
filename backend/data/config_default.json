@@ -1,0 +1,45 @@
+{
+  "config_version": 1,
+  "tolerances": {
+    "price_pct": 2.0,
+    "qty_pct": 5.0,
+    "total_pct": 2.0,
+    "total_absolute_cap_inr": 5000
+  },
+  "doa_matrix": [
+    { "amount_ceiling": 25000, "approver_role": "AP" },
+    { "amount_ceiling": 100000, "approver_role": "Manager" },
+    { "amount_ceiling": 1000000, "approver_role": "Head" },
+    { "amount_ceiling": null, "approver_role": "CFO" }
+  ],
+  "confidence_thresholds": {
+    "auto_approve_min": 0.85,
+    "flag_below": 0.70
+  },
+  "required_fields": ["invoice_number", "invoice_date", "grand_total", "vendor_gstin"],
+  "itc_blocked_hsns_or_categories": [
+    "motor_vehicles",
+    "food_and_beverages",
+    "outdoor_catering",
+    "beauty_and_health_services",
+    "club_membership",
+    "life_and_health_insurance",
+    "works_contract_immovable_property",
+    "personal_consumption",
+    "gifts"
+  ],
+  "tds_matrix": [
+    { "vendor_category_or_account": "contractor", "section": "194C", "rate": 2.0, "threshold": 30000 },
+    { "vendor_category_or_account": "professional_services", "section": "194J", "rate": 10.0, "threshold": 50000 },
+    { "vendor_category_or_account": "rent_building", "section": "194I", "rate": 10.0, "threshold": 50000 },
+    { "vendor_category_or_account": "commission", "section": "194H", "rate": 2.0, "threshold": 20000 }
+  ],
+  "retry_limits": {
+    "low_conf_resubmissions": 3
+  },
+  "op_toggles": {
+    "gstin_active_check": true,
+    "near_dup_check": true,
+    "coding_suggestion": true
+  }
+}

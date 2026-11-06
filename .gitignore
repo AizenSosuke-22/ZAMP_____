@@ -1,0 +1,12 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets
+.env
+
+# Runtime state (SQLite db, uploaded files)
+backend/data/*.db
+backend/data/uploads/
