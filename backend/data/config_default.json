@@ -24,5 +24,8 @@
     "gstin_active_check": true,
     "near_dup_check": true,
     "coding_suggestion": true
+  },
+  "review_policies": {
+    "ocr_always_pending_review": true
   }
 }

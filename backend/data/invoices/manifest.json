@@ -143,7 +143,7 @@
         "routing_bucket": "C",
         "decision": "approve_pending_review",
         "routing_label": null,
-        "notes": "Exact PO match. Image-only PDF (skew, speckle, blur, JPEG) so it must go through OCR; OCR confidence should land in the medium band. Must not be flagged."
+        "notes": "Exact PO match. Image-only PDF (skew, speckle, blur, JPEG) so it must go through OCR; extraction confidence is high (~0.99), so approve_pending_review comes from the review policy review_policies.ocr_always_pending_review, not the confidence band. Toggle off -> auto_approve. Must not be flagged."
       },
       "ground_truth": {
         "vendor_name": "Sahyadri Facility Management Pvt Ltd",

@@ -222,7 +222,9 @@ INVOICES = [
      "lines": [(*HK_OCT[1:], 1, "Month", 68000), (*HK_CONS[1:], 1, "Lot", 7500)], "scanned": True,
      "expected": {"routing_bucket": "C", "decision": "approve_pending_review", "routing_label": None,
                   "notes": "Exact PO match. Image-only PDF (skew, speckle, blur, JPEG) so it must go through OCR; "
-                           "OCR confidence should land in the medium band. Must not be flagged."}},
+                           "extraction confidence is high (~0.99), so approve_pending_review comes from the "
+                           "review policy review_policies.ocr_always_pending_review, not the confidence band. "
+                           "Toggle off -> auto_approve. Must not be flagged."}},
     {"file": "04_proforma.pdf", "scenario": "Pro forma formatted exactly like an invoice",
      "vendor": "V005", "po": None, "number": "CC/PI/26-27/044", "date": "2026-10-15",
      "title": "PROFORMA INVOICE", "lines": [(*LAPTOP[1:], 5, "Nos", 65000)],
