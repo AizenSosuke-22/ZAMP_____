@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS cases (
     ingested_at    TEXT NOT NULL,
     file_path      TEXT NOT NULL,   -- relative to data/
     size_bytes     INTEGER NOT NULL,
-    status         TEXT NOT NULL,   -- ingested | needs_human | extracted | failed
+    status         TEXT NOT NULL,   -- ingested | needs_human | processed | failed
     status_reason  TEXT,
     retry_count    INTEGER NOT NULL DEFAULT 0
 );

@@ -85,9 +85,22 @@ class Categorization(BaseModel):
     ungrounded_fields: list[str]
 
 
+class OpResult(BaseModel):
+    """One Processing check (PRD §7). `confidence` = weakest extracted field it relied on (None if not run)."""
+    op_id: str            # "1".."10", "F1"
+    name: str
+    stage: str            # "A".."F"
+    tier: str             # "T1".."T4"
+    result: Literal["pass", "warn", "fail", "skipped", "not_evaluated"]
+    severity: Literal["critical", "high", "medium", "low", "info", "none"]
+    confidence: float | None
+    evidence: dict
+    reason: str
+
+
 class Stage(BaseModel):
-    status: str
-    ops: list[dict] = []
+    status: str           # passed | failed | skipped
+    ops: list[OpResult] = []
 
 
 class Dossier(BaseModel):
@@ -98,6 +111,8 @@ class Dossier(BaseModel):
     categorization: Categorization | None = None
     invoice_extracted: Invoice | None = None
     stages: dict[str, Stage] = {}  # A-F, filled by Processing
+    resolved: dict = {}            # {entity_id, vendor_id, po_number} as ops resolve them
+    missing_required_fields: list[str] = []
     blocker_hit: bool = False
     failures: list = []
     warnings: list = []

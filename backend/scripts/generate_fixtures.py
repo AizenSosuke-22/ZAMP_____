@@ -1,7 +1,7 @@
 """Generate the synthetic AP fixture pack (PRD §13).
 
 Writes to backend/data/: entity.json, vendor_master.json, po_master.json,
-chart_of_accounts.json, invoices/*.pdf, invoices/manifest.json.
+chart_of_accounts.json, hsn_gst_rates.json, invoices/*.pdf, invoices/manifest.json.
 
 Deterministic: fixed seed + reportlab invariant mode, so every run produces
 byte-identical files (stable SHA-256 — duplicate detection depends on it).
@@ -515,6 +515,7 @@ def main():
     dump(DATA / "vendor_master.json", VENDORS)
     dump(DATA / "po_master.json", POS)
     dump(DATA / "chart_of_accounts.json", CHART_OF_ACCOUNTS)
+    dump(DATA / "hsn_gst_rates.json", GST_RATE)  # reference rate per HSN/SAC (Op 10)
     dump(INV_DIR / "manifest.json", {
         "note": "Answer key. Process invoices in file order: #7/#8 need #1 first, #6 needs #5 first. "
                 "Expected decisions assume config_default.json (config_version 1).",

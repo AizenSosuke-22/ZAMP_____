@@ -1,10 +1,10 @@
-"""Runs one case through the buckets and stores its Dossier. Processing + Verdict plug in here next."""
+"""Runs one case through the buckets and stores its Dossier. Verdict plugs in here next."""
 import json
 from datetime import datetime, timezone
 
 from app import db, settings
 from app.models import Dossier, Invoice
-from app.pipeline import categorization
+from app.pipeline import categorization, processing
 
 
 def _now():
@@ -21,8 +21,9 @@ def run_case(case: dict, use_cache: bool = True) -> Dossier:
     dossier.invoice_extracted = Invoice(
         **fields, case_id=case["case_id"], ingested_at=case["ingested_at"],
         source_channel=case["source_channel"], file_hash=case["sha256"],
-        buyer_entity_id=None,  # resolved against entity.json by Op 2 (next task)
+        buyer_entity_id=None,  # filled by Op 2
         per_field_confidence=confidence)
+    processing.run(dossier, processing.load_context(config, case["case_id"]))
     dossier.run_ended = _now()
 
     with db.connect() as conn:
@@ -31,7 +32,7 @@ def run_case(case: dict, use_cache: bool = True) -> Dossier:
             " ON CONFLICT(case_id) DO UPDATE SET config_version = excluded.config_version,"
             " dossier_json = excluded.dossier_json, updated_at = excluded.updated_at",
             (case["case_id"], dossier.config_version, dossier.model_dump_json(), _now().isoformat()))
-        conn.execute("UPDATE cases SET status = 'extracted', status_reason = NULL WHERE case_id = ?",
+        conn.execute("UPDATE cases SET status = 'processed', status_reason = NULL WHERE case_id = ?",
                      (case["case_id"],))
     return dossier
 

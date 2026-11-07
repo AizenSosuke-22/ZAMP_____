@@ -66,8 +66,8 @@ def test_run_endpoint_builds_dossier(client, monkeypatch, fixture, bucket):
     inv = d["invoice_extracted"]
     assert inv["case_id"] == case_id and inv["source_channel"] == "upload"
     assert inv["per_field_confidence"]["grand_total"] > 0.9
-    assert d["stages"] == {} and d["blocker_hit"] is False
+    assert set(d["stages"]) == set("ABCDEF") and d["blocker_hit"] is False
 
     # second run comes from cache, and the dossier is retrievable
     assert client.post(f"/api/cases/{case_id}/run").json()["categorization"]["cache_hit"] is True
-    assert client.get(f"/api/cases/{case_id}").json()["status"] == "extracted"
+    assert client.get(f"/api/cases/{case_id}").json()["status"] == "processed"
