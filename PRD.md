@@ -36,7 +36,7 @@ This document specifies the invoice processing automation we will build for the 
 | Classification | Document type + routing bucket (7 buckets) |
 | Verification | Vendor master, PO lookup, bank-detail integrity |
 | Matching | Line-item match, qty / price / total checks, tolerances |
-| Validation | Duplicate detection (hard + near), arithmetic, GST, TDS |
+| Validation | Duplicate detection (hard + near), arithmetic, GST |
 | Coding | Suggested GL account, cost center, capex / opex (advisory) |
 | Decision | 5 states (Auto-approve / Approve pending / Flag / Reject / Fraud alert) |
 | Reasoning | Short narrative + full failed-check trail + confidence score |
@@ -344,8 +344,6 @@ Schemas (conceptual — concrete types finalised in build).
   doa_matrix: [{ amount_ceiling, approver_role }],
   confidence_thresholds: { auto_approve_min, flag_below },
   required_fields: [...],
-  itc_blocked_hsns_or_categories: [...],
-  tds_matrix: [{ vendor_category_or_account, section, rate, threshold }],
   retry_limits: { low_conf_resubmissions },
   op_toggles: { gstin_active_check, near_dup_check, coding_suggestion }
 }
@@ -398,8 +396,6 @@ Stored in `config.json`, exposed in a Settings page.
 | DoA matrix | <₹25K: AP · ₹25K–₹1L: Mgr · ₹1L–₹10L: Head · ₹10L+: CFO |
 | Confidence thresholds | Auto-approve ≥ 0.85 · Flag < 0.70 |
 | Required fields list | invoice\_number, invoice\_date, grand\_total, vendor\_gstin |
-| Blocked ITC HSNs / categories | Sec 17(5) blocked list |
-| TDS matrix | 194C / J / I / H → rates + thresholds |
 | Retry limit on low-confidence bounce-back | 3 |
 
 ### T2 · On / off toggles (slice)

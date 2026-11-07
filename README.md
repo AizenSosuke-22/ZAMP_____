@@ -19,4 +19,4 @@ cd backend && ../.venv/Scripts/python.exe -m uvicorn app.main:app --reload   # h
 cd frontend && npm install && npm run dev   # http://localhost:3000
 ```
 
-Copy `backend/.env.example` to `backend/.env` and set `ANTHROPIC_API_KEY`.
+Copy `backend/.env.example` to `backend/.env` and set `GEMINI_API_KEY` (`GEMINI_MODEL` defaults to `gemini-3.6-flash`). Check it with `cd backend && ../.venv/Scripts/python.exe test_gemini.py`.

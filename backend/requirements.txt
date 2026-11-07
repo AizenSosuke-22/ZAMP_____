@@ -4,7 +4,7 @@ uvicorn[standard]==0.54.0
 python-multipart==0.0.33   # file uploads
 # Extraction
 pymupdf==2.1               # PDF text layer, encryption detection, page -> image for OCR
-anthropic==2.6.0           # LLM extraction / classification / narrative
+google-genai==2.34.0       # Gemini — LLM extraction / classification / narrative
 python-dotenv==1.2.4
 # Tests
 pytest==9.2.0

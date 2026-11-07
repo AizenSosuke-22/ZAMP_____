@@ -17,23 +17,6 @@
     "flag_below": 0.70
   },
   "required_fields": ["invoice_number", "invoice_date", "grand_total", "vendor_gstin"],
-  "itc_blocked_hsns_or_categories": [
-    "motor_vehicles",
-    "food_and_beverages",
-    "outdoor_catering",
-    "beauty_and_health_services",
-    "club_membership",
-    "life_and_health_insurance",
-    "works_contract_immovable_property",
-    "personal_consumption",
-    "gifts"
-  ],
-  "tds_matrix": [
-    { "vendor_category_or_account": "contractor", "section": "194C", "rate": 2.0, "threshold": 30000 },
-    { "vendor_category_or_account": "professional_services", "section": "194J", "rate": 10.0, "threshold": 50000 },
-    { "vendor_category_or_account": "rent_building", "section": "194I", "rate": 10.0, "threshold": 50000 },
-    { "vendor_category_or_account": "commission", "section": "194H", "rate": 2.0, "threshold": 20000 }
-  ],
   "retry_limits": {
     "low_conf_resubmissions": 3
   },
