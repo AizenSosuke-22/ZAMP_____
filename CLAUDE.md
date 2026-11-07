@@ -2,9 +2,10 @@
 
 Invoice processing pipeline for the Zamp ASA PS-1 case study. **Spec: [PRD.md](PRD.md)** — read it first.
 
-## Current state (as of 2026-11-07)
+## Current state (as of 2026-11-07, end of Saturday)
 
-- Repo set up; initial commit contains the scaffold below.
+- **Backend complete and tested:** Collection + Categorization + Extraction + Processing + Verdict. **43 tests passing; 10/10 fixture decisions + routing labels match the manifest.** Branch `gemini-sdk-switch`, commits up to `cb8137d` (not pushed). `docs/` (plan-processing.md, plan-verdict.md) is untracked.
+- **Done Saturday night:** Verdict V1–V6 (state, weakest-link confidence, Decision Card, Processed Invoice Record, persistence + exports, override hook), the narrative validator with template fallback, and the hash-chained append-only audit log.
 - **Backend** (`backend/`): all 4 buckets built (backend only). `POST /api/invoices/upload`, `POST /api/cases/{id}/run[?use_cache=false]` -> `{case_id, dossier, decision_card, processed_invoice_record}` (case status -> `decided`), `GET /api/cases/{id}` (+ latest card/record/audit/overrides), `POST /api/cases/{id}/override`, `GET /api/cases/{id}/export.{json,csv,pdf}`. Paths + `PIPELINE_VERSION` in `app/settings.py`; SQLite `data/ap.db` (`app/db.py`); schemas in `app/models.py`; orchestration + V5 persistence + V6 override in `app/pipeline/runner.py`; exports in `app/exports.py`. 43 offline tests (Gemini stubbed for extraction; narratives forced to template by an autouse conftest stub). `scripts/run_case.py [--reset] <pdf...>` = end-to-end vs manifest (processing table + verdict table + decision cards). Live run 2026-11-07: **10/10 decisions + routing labels match manifest**.
 - **Verdict** (`app/pipeline/verdict.py`, per `docs/plan-verdict.md`, approved 2026-11-07): V1 = `decision_hint()` then band (Low -> flag, Medium -> pending, High -> auto) then OCR policy. V2 = **min**(required-field confidence, share of evaluated T3 ops that passed, our line-item total == printed total). Routing labels in fixed priority (`LABELS`); "low extraction confidence" only when Low is *why* it's flagged. Journal: Dr F1 GL + Input GST 1310/1320/1330, Cr/Dr 5990 Round-off, Cr 2100; none for reject/fraud. `audit_log` + `overrides` append-only (SQLite triggers) and hash-chained; `dashboard` = mutable one-row-per-case projection; re-run appends a new verdict and clears the dashboard override.
 - **Narrative** (`app/pipeline/narrative.py`, `NARRATIVE_PROMPT_VERSION`): FACTS -> Gemini (12 s timeout; API rejects < 10 s) -> validator (1-3 sentences, <= 90 words, no jargon, no number absent from FACTS) -> else template. Raw output cached in `data/cache/narrative_*` and re-validated on use.
@@ -34,10 +35,21 @@ Invoice processing pipeline for the Zamp ASA PS-1 case study. **Spec: [PRD.md](P
 4. [x] Synthetic data: `backend/scripts/generate_fixtures.py` → `backend/data/` (entity, vendor_master, po_master, chart_of_accounts, `invoices/*.pdf` + `invoices/manifest.json` answer key). Deterministic (byte-identical reruns); 76 built-in self-checks. Process invoices in file order (#7/#8 need #1, #6 needs #5).
 5. [x] Collection + Categorization + Extraction (buckets B, C).
 6. [x] Processing (10 ops + F1). [x] Verdict (V1-V6), backend.
-7. [ ] **Before Monday: user enables billing on the Gemini API**, then warm the narrative cache: `run_case.py --reset data/invoices/*.pdf`, plus #10 under `tolerances.price_pct = 3` (Settings-flip demo spine). Then the user reviews narrative tone (#3, #8, #10, a fraud case) against the targets in `docs/plan-verdict.md` §3; calibrate `SYSTEM_PROMPT` if needed (bump `NARRATIVE_PROMPT_VERSION`).
-8. [ ] Frontend: Upload, Live Run, Dashboard (+ filters, overrides panel), Decision Card, Settings (PRD §12).
-   Open items:
-   - PO reservation counts every earlier non-blocked case linked to the PO; could be refined to approved / pending only.
+### First thing Sunday (before any UI work)
+
+7. [ ] **Enable billing on the Gemini API** (user; if not done Saturday night). The free tier is 20 requests/day per model, which is not enough to warm the cache or run the demo.
+8. [ ] **Warm the narrative cache:**
+   - `cd backend && ../.venv/Scripts/python.exe scripts/run_case.py --reset data/invoices/*.pdf` (10 narrative calls; extraction is already cached).
+   - Re-run #10 under `tolerances.price_pct = 3` to cache the Settings-flip narrative. There's no flag for this yet: edit `config_default.json`, run `run_case.py data/invoices/10_outside_tolerance.pdf`, then revert. Or add a `--price-pct` flag to `run_case.py`.
+9. [ ] **Review the regenerated narratives** for #3, #8, #10 and a fraud case against the targets in `docs/plan-verdict.md` §3. No fixture is a fraud case, so generate one as a one-off: #1 with a changed bank account, as in `tests/test_verdict.py::test_bank_mismatch_is_fraud_alert`, but with live Gemini. If the tone is off, calibrate `SYSTEM_PROMPT` in `narrative.py` and bump `NARRATIVE_PROMPT_VERSION` (currently `narrative-v2`).
+
+### Sunday build plan (PRD §12, §16)
+
+10. [ ] **Sunday AM — UI shell:** Upload view, Live Run view (stages Collection → Categorization → A–F → Verdict, op results inline), Decision Card rendering. This includes the display for #9's 0.00 confidence (see Decisions locked). Read `frontend/AGENTS.md` first.
+11. [ ] **Sunday PM — Dashboard + Settings page:** Dashboard table with filters, row → drill-down, status/label counts, and an overrides panel. The Settings page edits the §10 config and bumps `config_version` (it's the demo spine: flip `price_pct` and re-run #10). The backend needs list + config endpoints for these; they don't exist yet.
+
+Open items:
+- PO reservation counts every earlier non-blocked case linked to the PO; could be refined to approved / pending only.
 
 ## Cut log (demo + interview answer sheet)
 
