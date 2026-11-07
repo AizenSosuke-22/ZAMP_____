@@ -41,7 +41,7 @@ def test_all_fixtures_in_order(client, monkeypatch):
         monkeypatch.setattr(cat, "call_gemini", lambda text, source, ext=canned(f): ext)
         case_id = client.post("/api/invoices/upload", files=[("files", (f, (INVOICES / f).read_bytes(),
                                                                          "application/pdf"))]).json()["results"][0]["case_id"]
-        got[f] = Dossier.model_validate(client.post(f"/api/cases/{case_id}/run").json())
+        got[f] = Dossier.model_validate(client.post(f"/api/cases/{case_id}/run").json()["dossier"])
 
     assert {f: (processing.decision_hint(d), d.failures) for f, d in got.items()} == EXPECTED
 

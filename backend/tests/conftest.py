@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 from app import settings
 from app.main import app
 from app.models import InvoiceFields, LineItem
+from app.pipeline import narrative
 
 INVOICES = settings.DATA_DIR / "invoices"
 MANIFEST = {e["file"]: e for e in json.loads((INVOICES / "manifest.json").read_text(encoding="utf-8"))["invoices"]}
@@ -18,6 +19,14 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "UPLOAD_DIR", tmp_path / "uploads")
     monkeypatch.setattr(settings, "CACHE_DIR", tmp_path / "cache")
     return TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def offline_narrative(monkeypatch):
+    """No test reaches Gemini for narratives: the template fallback is used unless a test stubs call_gemini."""
+    def offline(facts):
+        raise RuntimeError("offline in tests")
+    monkeypatch.setattr(narrative, "call_gemini", offline)
 
 
 def canned_extraction(file: str, confidence: float = 1.0) -> dict:

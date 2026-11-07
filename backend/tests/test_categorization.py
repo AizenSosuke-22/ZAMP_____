@@ -59,7 +59,7 @@ def test_run_endpoint_builds_dossier(client, monkeypatch, fixture, bucket):
     monkeypatch.setattr(cat, "call_gemini", lambda text, source: canned_extraction(fixture))
     case_id = client.post("/api/invoices/upload", files=[("files", (fixture, pdf(fixture), "application/pdf"))]
                           ).json()["results"][0]["case_id"]
-    d = client.post(f"/api/cases/{case_id}/run").json()
+    d = client.post(f"/api/cases/{case_id}/run").json()["dossier"]
     assert d["config_version"] == 1
     assert d["categorization"]["routing_bucket"] == bucket
     assert d["categorization"]["cache_hit"] is False
@@ -69,5 +69,5 @@ def test_run_endpoint_builds_dossier(client, monkeypatch, fixture, bucket):
     assert set(d["stages"]) == set("ABCDEF") and d["blocker_hit"] is False
 
     # second run comes from cache, and the dossier is retrievable
-    assert client.post(f"/api/cases/{case_id}/run").json()["categorization"]["cache_hit"] is True
-    assert client.get(f"/api/cases/{case_id}").json()["status"] == "processed"
+    assert client.post(f"/api/cases/{case_id}/run").json()["dossier"]["categorization"]["cache_hit"] is True
+    assert client.get(f"/api/cases/{case_id}").json()["status"] == "decided"

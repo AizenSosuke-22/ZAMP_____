@@ -1,4 +1,4 @@
-"""Upload PDFs, run the pipeline in-process (Collection -> Categorization -> Processing), compare to the manifest.
+"""Upload PDFs, run the pipeline in-process (Collection -> Categorization -> Processing -> Verdict), compare to the manifest.
 
 Run from backend/:
     ../.venv/Scripts/python.exe scripts/run_case.py data/invoices/01_happy_path.pdf [--no-cache]
@@ -142,26 +142,52 @@ def main():
         resp = client.post(f"/api/cases/{case_id}/run", params={"use_cache": not args.no_cache})
         if resp.status_code != 200:
             sys.exit(f"Run failed: {resp.status_code} {resp.text}")
-        d = Dossier.model_validate(resp.json())
+        out = resp.json()
+        d = Dossier.model_validate(out["dossier"])
         entry = next((e for e in manifest["invoices"] if e["sha256"] == r["sha256"]), None)
         if len(paths) == 1:
-            extraction_report(pdf, resp.json(), entry)
-        rows.append((path, case_id, d, d.categorization.cache_hit, compare(path, d, entry)))
+            extraction_report(pdf, out["dossier"], entry)
+        rows.append((path, case_id, d, d.categorization.cache_hit, compare(path, d, entry), out["decision_card"], entry))
 
     print("\n=== PROCESSING vs MANIFEST ===")
     print(f"{'file':<27} {'case':<12} {'cache':<5} {'bucket':<7} {'hint (got / exp)':<26} "
           f"{'failed ops (got / exp)':<24} {'missing required':<18} ok")
-    for path, case_id, d, hit, c in rows:
+    for path, case_id, d, hit, c, _, _ in rows:
         mark = "?" if c["ok"] is None else ("✓" if c["ok"] else "✗")
         print(f"{path.name:<27} {case_id:<12} {'hit' if hit else 'MISS':<5} {c['bucket'] + '/' + c['exp_bucket']:<7} "
               f"{c['hint'] + ' / ' + c['exp_hint']:<26} "
               f"{(','.join(c['fails']) or '-') + ' / ' + (','.join(c['exp_fails']) or '-'):<24} "
               f"{','.join(c['missing']) or '-':<18} {mark}")
-    n_ok = sum(1 for *_, c in rows if c["ok"])
+    n_ok = sum(1 for row in rows if row[4]["ok"])
     print(f"\n{n_ok}/{len(rows)} match the manifest")
 
+    print("\n=== VERDICT vs MANIFEST (expected.decision + routing_label) ===")
+    print(f"{'file':<27} {'decision (got / exp)':<46} {'conf':>5} {'band':<6} {'routing label (got / exp)':<64} ok")
+    n_ok = 0
+    for path, _, _, _, _, card, entry in rows:
+        exp = entry["expected"] if entry else {}
+        ok = None if not entry else (card["state"] == exp["decision"] and card["routing_label"] == exp["routing_label"])
+        n_ok += bool(ok)
+        labels = f"{card['routing_label'] or '-'} / {exp.get('routing_label') or '-'}"
+        print(f"{path.name:<27} {card['state'] + ' / ' + exp.get('decision', '?'):<46} "
+              f"{card['confidence']['score']:>5.2f} {card['confidence']['band']:<6} {labels:<64} "
+              f"{'?' if ok is None else '✓' if ok else '✗'}")
+    print(f"\n{n_ok}/{len(rows)} decisions match the manifest")
+
+    print("\n=== DECISION CARDS ===")
+    for path, case_id, _, _, _, card, _ in rows:
+        print(f"{path.name}  [{case_id}]  {card['status_badge']}" +
+              (f"  ·  {card['routing_label']}" if card["routing_label"] else ""))
+        print(f"    narrative ({card['narrative_source']}): {card['narrative']}")
+        if card["narrative_rejected"]:
+            print(f"    LLM text not used -> {card['narrative_rejected']}")
+        if card["secondary_labels"]:
+            print(f"    also: {'; '.join(card['secondary_labels'])}")
+        print(f"    next: {card['next_action']}  ·  approver: {card['approver_role']}  ·  "
+              f"confidence {card['confidence']['score']} {card['confidence']['components']}")
+
     print("\n=== WHY (every op that didn't pass) ===")
-    for path, case_id, d, _, _ in rows:
+    for path, case_id, d, *_ in rows:
         notable = [o for s in d.stages.values() for o in s.ops if o.result in ("fail", "warn")]
         print(f"{path.name}  [{case_id}]" + ("  - all checks passed" if not notable else ""))
         for o in notable:

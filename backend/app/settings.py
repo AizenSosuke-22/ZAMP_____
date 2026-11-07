@@ -13,6 +13,7 @@ CACHE_DIR = DATA_DIR / "cache"
 
 load_dotenv(BACKEND_DIR / ".env")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash").strip()
+PIPELINE_VERSION = "0.3.0"  # stamped on every Processed Invoice Record
 
 
 def load_config():

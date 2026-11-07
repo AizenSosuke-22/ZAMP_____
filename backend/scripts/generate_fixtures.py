@@ -127,6 +127,7 @@ CHART_OF_ACCOUNTS = [
     {"code": "5500", "name": "Rent", "type": "expense", "capex_opex": "opex"},
     {"code": "5600", "name": "Travel & Conveyance", "type": "expense", "capex_opex": "opex"},
     {"code": "5700", "name": "Professional & Legal Fees", "type": "expense", "capex_opex": "opex"},
+    {"code": "5990", "name": "Round-off", "type": "expense", "capex_opex": None},  # journal entry balancing
 ]
 
 # --------------------------------------------------------------- POs -------

@@ -88,5 +88,11 @@
     "name": "Professional & Legal Fees",
     "type": "expense",
     "capex_opex": "opex"
+  },
+  {
+    "code": "5990",
+    "name": "Round-off",
+    "type": "expense",
+    "capex_opex": null
   }
 ]
