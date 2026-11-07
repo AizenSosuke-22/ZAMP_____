@@ -23,7 +23,8 @@ Invoice processing pipeline for the Zamp ASA PS-1 case study. **Spec: [PRD.md](P
 1. [x] Remove TDS + ITC from config + Settings spec. (PRD §8 V4 "Tax treatment" intentionally left as-is — user decision; journal entry is computed without TDS/ITC.)
 2. [x] Switch extraction SDK to `google-genai` + `GEMINI_API_KEY`.
 3. [x] Gemini key in `backend/.env`; `test_gemini.py` passes.
-4. [ ] **Run the synthetic data generator** (PRD §13): ~10 invoice PDFs, ~20 POs across 5 vendors (incl. one split PO), 5–7 vendor master rows, ~15 GL accounts. Generator not written yet.
+4. [x] Synthetic data: `backend/scripts/generate_fixtures.py` → `backend/data/` (entity, vendor_master, po_master, chart_of_accounts, `invoices/*.pdf` + `invoices/manifest.json` answer key). Deterministic (byte-identical reruns); 76 built-in self-checks. Process invoices in file order (#7/#8 need #1, #6 needs #5).
+   - ⚠ Before building OCR: `rapidocr-onnxruntime` is frozen at 1.4.4 (Jan 2025); successor is `rapidocr` (3.x). Decide with user. Confirm `03_scanned.pdf` OCRs cleanly — tune `make_scanned()` noise if not.
 
 ## Commands
 

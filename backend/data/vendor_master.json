@@ -1,0 +1,104 @@
+[
+  {
+    "vendor_id": "V001",
+    "legal_name": "Shreeji Office Solutions Pvt Ltd",
+    "aliases": [
+      "Shreeji Office Solutions",
+      "Shreeji Office",
+      "SOS Pvt Ltd"
+    ],
+    "pan": "AAFCS7342L",
+    "state_code": "27",
+    "address": "Unit 14, Kamala Mills Compound, Senapati Bapat Marg, Lower Parel, Mumbai 400013, Maharashtra",
+    "bank_name": "HDFC Bank",
+    "bank_acct": "50200041873215",
+    "bank_ifsc": "HDFC0001234",
+    "bank_last_updated": "2025-04-01",
+    "default_gl_account": "1510",
+    "default_cost_center": "CC-ADMIN",
+    "category": "goods",
+    "gstin": "27AAFCS7342L1ZX",
+    "status": "active"
+  },
+  {
+    "vendor_id": "V002",
+    "legal_name": "Kaveri Infotech Services Pvt Ltd",
+    "aliases": [
+      "Kaveri Infotech",
+      "Kaveri Infotech Services"
+    ],
+    "pan": "AADCK5519H",
+    "state_code": "29",
+    "address": "No. 42, 2nd Cross, Koramangala 5th Block, Bengaluru 560095, Karnataka",
+    "bank_name": "ICICI Bank",
+    "bank_acct": "071905003318",
+    "bank_ifsc": "ICIC0004521",
+    "bank_last_updated": "2024-11-18",
+    "default_gl_account": "5200",
+    "default_cost_center": "CC-IT",
+    "category": "services",
+    "gstin": "29AADCK5519H1ZD",
+    "status": "active"
+  },
+  {
+    "vendor_id": "V003",
+    "legal_name": "Sahyadri Facility Management Pvt Ltd",
+    "aliases": [
+      "Sahyadri Facility Management",
+      "Sahyadri FM",
+      "Sahyadri Facilities"
+    ],
+    "pan": "AAGCS2287M",
+    "state_code": "27",
+    "address": "Office 7, Sai Plaza, Baner Road, Pune 411045, Maharashtra",
+    "bank_name": "State Bank of India",
+    "bank_acct": "38214567902",
+    "bank_ifsc": "SBIN0011987",
+    "bank_last_updated": "2025-01-09",
+    "default_gl_account": "5300",
+    "default_cost_center": "CC-FACILITIES",
+    "category": "services",
+    "gstin": "27AAGCS2287M1ZS",
+    "status": "active"
+  },
+  {
+    "vendor_id": "V004",
+    "legal_name": "Sabarmati Packaging Industries Pvt Ltd",
+    "aliases": [
+      "Sabarmati Packaging",
+      "Sabarmati Packaging Industries"
+    ],
+    "pan": "AAJCS6631B",
+    "state_code": "24",
+    "address": "Plot 118, GIDC Estate, Vatva, Ahmedabad 382445, Gujarat",
+    "bank_name": "Axis Bank",
+    "bank_acct": "918020047712650",
+    "bank_ifsc": "UTIB0002233",
+    "bank_last_updated": "2025-06-23",
+    "default_gl_account": "5400",
+    "default_cost_center": "CC-WAREHOUSE",
+    "category": "goods",
+    "gstin": "24AAJCS6631B1ZM",
+    "status": "active"
+  },
+  {
+    "vendor_id": "V005",
+    "legal_name": "Coromandel Computers Pvt Ltd",
+    "aliases": [
+      "Coromandel Computers",
+      "Coromandel Computer Systems"
+    ],
+    "pan": "AABCC9084R",
+    "state_code": "33",
+    "address": "22, Anna Salai, Teynampet, Chennai 600018, Tamil Nadu",
+    "bank_name": "Kotak Mahindra Bank",
+    "bank_acct": "4612398870",
+    "bank_ifsc": "KKBK0000611",
+    "bank_last_updated": "2024-08-30",
+    "default_gl_account": "1500",
+    "default_cost_center": "CC-IT",
+    "category": "goods",
+    "gstin": "33AABCC9084R1Z1",
+    "status": "active"
+  }
+]

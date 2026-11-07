@@ -1,0 +1,92 @@
+[
+  {
+    "code": "1310",
+    "name": "Input CGST Receivable",
+    "type": "asset",
+    "capex_opex": null
+  },
+  {
+    "code": "1320",
+    "name": "Input SGST Receivable",
+    "type": "asset",
+    "capex_opex": null
+  },
+  {
+    "code": "1330",
+    "name": "Input IGST Receivable",
+    "type": "asset",
+    "capex_opex": null
+  },
+  {
+    "code": "1500",
+    "name": "Computer Equipment",
+    "type": "asset",
+    "capex_opex": "capex"
+  },
+  {
+    "code": "1510",
+    "name": "Furniture & Fixtures",
+    "type": "asset",
+    "capex_opex": "capex"
+  },
+  {
+    "code": "2100",
+    "name": "Trade Payables",
+    "type": "liability",
+    "capex_opex": null
+  },
+  {
+    "code": "5100",
+    "name": "Office Supplies & Consumables",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5110",
+    "name": "Repairs & Maintenance",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5200",
+    "name": "IT Support & Services",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5210",
+    "name": "Software Subscriptions",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5300",
+    "name": "Housekeeping & Facility Services",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5400",
+    "name": "Packaging Materials",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5500",
+    "name": "Rent",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5600",
+    "name": "Travel & Conveyance",
+    "type": "expense",
+    "capex_opex": "opex"
+  },
+  {
+    "code": "5700",
+    "name": "Professional & Legal Fees",
+    "type": "expense",
+    "capex_opex": "opex"
+  }
+]

@@ -1,0 +1,458 @@
+[
+  {
+    "po_number": "PO-2026-0412",
+    "vendor_id": "V001",
+    "status": "open",
+    "raised_date": "2026-10-06",
+    "approved_by": "Manager - Admin",
+    "total_value": 155200.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 155200.0,
+    "line_items": [
+      {
+        "item_code": "FUR-WS-1200",
+        "desc": "Modular workstation desk, 1200 mm, with pedestal",
+        "hsn_sac": "9403",
+        "qty_ordered": 8,
+        "unit_price": 14500.0,
+        "line_total": 116000.0
+      },
+      {
+        "item_code": "FUR-FC-4D",
+        "desc": "Steel filing cabinet, 4-drawer",
+        "hsn_sac": "9403",
+        "qty_ordered": 4,
+        "unit_price": 9800.0,
+        "line_total": 39200.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0398",
+    "vendor_id": "V004",
+    "status": "open",
+    "raised_date": "2026-10-01",
+    "approved_by": "Manager - Warehouse",
+    "total_value": 138000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 138000.0,
+    "line_items": [
+      {
+        "item_code": "PKG-5PLY-18",
+        "desc": "5-ply corrugated box, 18x12x12 in",
+        "hsn_sac": "4819",
+        "qty_ordered": 2000,
+        "unit_price": 42.0,
+        "line_total": 84000.0
+      },
+      {
+        "item_code": "PKG-3PLY-12",
+        "desc": "3-ply corrugated carton, 12x10x8 in",
+        "hsn_sac": "4819",
+        "qty_ordered": 3000,
+        "unit_price": 18.0,
+        "line_total": 54000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0377",
+    "vendor_id": "V003",
+    "status": "open",
+    "raised_date": "2026-09-26",
+    "approved_by": "Manager - Facilities",
+    "total_value": 75500.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 75500.0,
+    "line_items": [
+      {
+        "item_code": "HK-MON",
+        "desc": "Housekeeping services, Andheri HQ - October 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 68000.0,
+        "line_total": 68000.0
+      },
+      {
+        "item_code": "HK-CONS",
+        "desc": "Housekeeping consumables - October 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 7500.0,
+        "line_total": 7500.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0420",
+    "vendor_id": "V005",
+    "status": "open",
+    "raised_date": "2026-10-08",
+    "approved_by": "CFO",
+    "total_value": 1950000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 1950000.0,
+    "line_items": [
+      {
+        "item_code": "LAP-14-I7",
+        "desc": "Laptop 14 in, Core i7, 16 GB RAM, 512 GB SSD",
+        "hsn_sac": "8471",
+        "qty_ordered": 30,
+        "unit_price": 65000.0,
+        "line_total": 1950000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0391",
+    "vendor_id": "V002",
+    "status": "open",
+    "raised_date": "2026-09-30",
+    "approved_by": "Manager - IT",
+    "total_value": 100000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 100000.0,
+    "line_items": [
+      {
+        "item_code": "IT-AMC-MON",
+        "desc": "IT infrastructure support (AMC) - October 2026",
+        "hsn_sac": "998313",
+        "qty_ordered": 1,
+        "unit_price": 85000.0,
+        "line_total": 85000.0
+      },
+      {
+        "item_code": "IT-ONSITE",
+        "desc": "On-site engineer visits",
+        "hsn_sac": "998313",
+        "qty_ordered": 6,
+        "unit_price": 2500.0,
+        "line_total": 15000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0405",
+    "vendor_id": "V002",
+    "status": "open",
+    "raised_date": "2026-10-03",
+    "approved_by": "Head - IT",
+    "total_value": 100000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 100000.0,
+    "line_items": [
+      {
+        "item_code": "IT-EPS-ANN",
+        "desc": "Managed endpoint security, annual, per device",
+        "hsn_sac": "998313",
+        "qty_ordered": 60,
+        "unit_price": 1000.0,
+        "line_total": 60000.0
+      },
+      {
+        "item_code": "IT-HD-Q3",
+        "desc": "Helpdesk support retainer - Q3 FY26-27",
+        "hsn_sac": "998313",
+        "qty_ordered": 1,
+        "unit_price": 40000.0,
+        "line_total": 40000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0301",
+    "vendor_id": "V001",
+    "status": "closed",
+    "raised_date": "2026-07-14",
+    "approved_by": "Manager - Admin",
+    "total_value": 48000.0,
+    "billed_to_date": 48000.0,
+    "remaining_balance": 0.0,
+    "line_items": [
+      {
+        "item_code": "FUR-CT-2400",
+        "desc": "Conference table, 2400 mm",
+        "hsn_sac": "9403",
+        "qty_ordered": 1,
+        "unit_price": 48000.0,
+        "line_total": 48000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0355",
+    "vendor_id": "V001",
+    "status": "open",
+    "raised_date": "2026-08-28",
+    "approved_by": "Manager - Admin",
+    "total_value": 67200.0,
+    "billed_to_date": 33600.0,
+    "remaining_balance": 33600.0,
+    "line_items": [
+      {
+        "item_code": "FUR-LK-12",
+        "desc": "Steel storage locker, 12-door",
+        "hsn_sac": "9403",
+        "qty_ordered": 6,
+        "unit_price": 11200.0,
+        "line_total": 67200.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0288",
+    "vendor_id": "V002",
+    "status": "closed",
+    "raised_date": "2026-06-30",
+    "approved_by": "Head - IT",
+    "total_value": 240000.0,
+    "billed_to_date": 240000.0,
+    "remaining_balance": 0.0,
+    "line_items": [
+      {
+        "item_code": "IT-AMC-Q2",
+        "desc": "IT infrastructure support (AMC) - Q2 FY26-27",
+        "hsn_sac": "998313",
+        "qty_ordered": 1,
+        "unit_price": 240000.0,
+        "line_total": 240000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0366",
+    "vendor_id": "V002",
+    "status": "cancelled",
+    "raised_date": "2026-09-04",
+    "approved_by": "Manager - IT",
+    "total_value": 75000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 75000.0,
+    "line_items": [
+      {
+        "item_code": "IT-NETAUD",
+        "desc": "Network security audit",
+        "hsn_sac": "998313",
+        "qty_ordered": 1,
+        "unit_price": 75000.0,
+        "line_total": 75000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0430",
+    "vendor_id": "V002",
+    "status": "open",
+    "raised_date": "2026-10-28",
+    "approved_by": "Manager - IT",
+    "total_value": 85000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 85000.0,
+    "line_items": [
+      {
+        "item_code": "IT-AMC-MON",
+        "desc": "IT infrastructure support (AMC) - November 2026",
+        "hsn_sac": "998313",
+        "qty_ordered": 1,
+        "unit_price": 85000.0,
+        "line_total": 85000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0310",
+    "vendor_id": "V003",
+    "status": "closed",
+    "raised_date": "2026-08-27",
+    "approved_by": "Manager - Facilities",
+    "total_value": 75500.0,
+    "billed_to_date": 75500.0,
+    "remaining_balance": 0.0,
+    "line_items": [
+      {
+        "item_code": "HK-MON",
+        "desc": "Housekeeping services, Andheri HQ - September 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 68000.0,
+        "line_total": 68000.0
+      },
+      {
+        "item_code": "HK-CONS",
+        "desc": "Housekeeping consumables - September 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 7500.0,
+        "line_total": 7500.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0378",
+    "vendor_id": "V003",
+    "status": "open",
+    "raised_date": "2026-10-27",
+    "approved_by": "Manager - Facilities",
+    "total_value": 75500.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 75500.0,
+    "line_items": [
+      {
+        "item_code": "HK-MON",
+        "desc": "Housekeeping services, Andheri HQ - November 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 68000.0,
+        "line_total": 68000.0
+      },
+      {
+        "item_code": "HK-CONS",
+        "desc": "Housekeeping consumables - November 2026",
+        "hsn_sac": "998533",
+        "qty_ordered": 1,
+        "unit_price": 7500.0,
+        "line_total": 7500.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0350",
+    "vendor_id": "V003",
+    "status": "open",
+    "raised_date": "2026-08-20",
+    "approved_by": "Manager - Facilities",
+    "total_value": 88000.0,
+    "billed_to_date": 44000.0,
+    "remaining_balance": 44000.0,
+    "line_items": [
+      {
+        "item_code": "HK-DEEP-WH",
+        "desc": "Deep cleaning, Bhiwandi warehouse (quarterly visit)",
+        "hsn_sac": "998533",
+        "qty_ordered": 4,
+        "unit_price": 22000.0,
+        "line_total": 88000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0295",
+    "vendor_id": "V004",
+    "status": "closed",
+    "raised_date": "2026-07-02",
+    "approved_by": "Manager - Warehouse",
+    "total_value": 103750.0,
+    "billed_to_date": 103750.0,
+    "remaining_balance": 0.0,
+    "line_items": [
+      {
+        "item_code": "PKG-5PLY-18",
+        "desc": "5-ply corrugated box, 18x12x12 in",
+        "hsn_sac": "4819",
+        "qty_ordered": 2500,
+        "unit_price": 41.5,
+        "line_total": 103750.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0362",
+    "vendor_id": "V004",
+    "status": "open",
+    "raised_date": "2026-09-08",
+    "approved_by": "Manager - Warehouse",
+    "total_value": 108000.0,
+    "billed_to_date": 54000.0,
+    "remaining_balance": 54000.0,
+    "line_items": [
+      {
+        "item_code": "PKG-3PLY-12",
+        "desc": "3-ply corrugated carton, 12x10x8 in",
+        "hsn_sac": "4819",
+        "qty_ordered": 6000,
+        "unit_price": 18.0,
+        "line_total": 108000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0415",
+    "vendor_id": "V004",
+    "status": "cancelled",
+    "raised_date": "2026-10-05",
+    "approved_by": "Manager - Warehouse",
+    "total_value": 39000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 39000.0,
+    "line_items": [
+      {
+        "item_code": "PKG-MAILER",
+        "desc": "Printed corrugated mailer box",
+        "hsn_sac": "4819",
+        "qty_ordered": 1500,
+        "unit_price": 26.0,
+        "line_total": 39000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0305",
+    "vendor_id": "V005",
+    "status": "closed",
+    "raised_date": "2026-07-10",
+    "approved_by": "Head - IT",
+    "total_value": 260000.0,
+    "billed_to_date": 260000.0,
+    "remaining_balance": 0.0,
+    "line_items": [
+      {
+        "item_code": "DT-I5",
+        "desc": "Desktop PC, Core i5, 16 GB RAM, 512 GB SSD",
+        "hsn_sac": "8471",
+        "qty_ordered": 5,
+        "unit_price": 52000.0,
+        "line_total": 260000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0384",
+    "vendor_id": "V005",
+    "status": "open",
+    "raised_date": "2026-09-15",
+    "approved_by": "Head - IT",
+    "total_value": 190000.0,
+    "billed_to_date": 95000.0,
+    "remaining_balance": 95000.0,
+    "line_items": [
+      {
+        "item_code": "LAP-DOCK",
+        "desc": "Laptop docking station, USB-C",
+        "hsn_sac": "8471",
+        "qty_ordered": 20,
+        "unit_price": 9500.0,
+        "line_total": 190000.0
+      }
+    ]
+  },
+  {
+    "po_number": "PO-2026-0408",
+    "vendor_id": "V005",
+    "status": "cancelled",
+    "raised_date": "2026-10-02",
+    "approved_by": "Head - IT",
+    "total_value": 380000.0,
+    "billed_to_date": 0.0,
+    "remaining_balance": 380000.0,
+    "line_items": [
+      {
+        "item_code": "SRV-RACK",
+        "desc": "Rack server, 2U, dual Xeon",
+        "hsn_sac": "8471",
+        "qty_ordered": 1,
+        "unit_price": 380000.0,
+        "line_total": 380000.0
+      }
+    ]
+  }
+]

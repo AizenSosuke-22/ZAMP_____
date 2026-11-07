@@ -6,6 +6,9 @@ python-multipart==0.0.33   # file uploads
 pymupdf==2.1               # PDF text layer, encryption detection, page -> image for OCR
 google-genai==2.34.0       # Gemini — LLM extraction / classification / narrative
 python-dotenv==1.2.4
+# Fixtures (scripts/generate_fixtures.py)
+reportlab==5.1.0
+pillow==13.0.0
 # Tests
 pytest==9.2.0
 httpx==0.28.1              # required by FastAPI TestClient
