@@ -1,0 +1,2 @@
+# Fixture PDFs are hashed for duplicate detection; never convert line endings.
+*.pdf binary
