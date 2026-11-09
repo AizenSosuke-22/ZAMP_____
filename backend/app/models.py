@@ -96,6 +96,7 @@ class OpResult(BaseModel):
     confidence: float | None
     evidence: dict
     reason: str
+    elapsed_ms: float | None = None  # wall-clock time of the check itself
 
 
 class Stage(BaseModel):
@@ -118,3 +119,4 @@ class Dossier(BaseModel):
     warnings: list = []
     advisories: list = []
     skipped: list = []
+    timings_ms: dict = {}          # {categorization, processing, verdict}, wall-clock per bucket

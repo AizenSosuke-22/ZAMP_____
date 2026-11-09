@@ -22,11 +22,18 @@ def client(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def default_config(tmp_path, monkeypatch):
+    """Tests always run under config_default.json, never a config saved from the Settings page."""
+    monkeypatch.setattr(settings, "CONFIG_PATH", tmp_path / "config.json")
+
+
+@pytest.fixture(autouse=True)
 def offline_narrative(monkeypatch):
     """No test reaches Gemini for narratives: the template fallback is used unless a test stubs call_gemini."""
     def offline(facts):
         raise RuntimeError("offline in tests")
     monkeypatch.setattr(narrative, "call_gemini", offline)
+    monkeypatch.setattr(settings, "NARRATIVE_CACHE_ONLY", False)  # tests exercise the stubbed-LLM path
 
 
 def canned_extraction(file: str, confidence: float = 1.0) -> dict:

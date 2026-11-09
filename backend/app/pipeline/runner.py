@@ -1,6 +1,7 @@
 """Runs one case through the buckets; persists Dossier + verdict (V5) and records overrides (V6)."""
 import hashlib
 import json
+import time
 from datetime import datetime, timezone
 
 from app import db, settings
@@ -19,6 +20,7 @@ def run_case(case: dict, use_cache: bool = True) -> dict:
     dossier = Dossier(case_id=case["case_id"], config_version=config["config_version"], run_started=_now())
 
     pdf = (settings.UPLOAD_DIR / f"{case['case_id']}.pdf").read_bytes()
+    t0 = time.perf_counter()
     cat, fields, confidence = categorization.categorize(pdf, case["sha256"], use_cache)
     dossier.categorization = cat
     dossier.invoice_extracted = Invoice(
@@ -26,9 +28,13 @@ def run_case(case: dict, use_cache: bool = True) -> dict:
         source_channel=case["source_channel"], file_hash=case["sha256"],
         buyer_entity_id=None,  # filled by Op 2
         per_field_confidence=confidence)
+    t1 = time.perf_counter()
     processing.run(dossier, processing.load_context(config, case["case_id"]))
     dossier.run_ended = _now()
+    t2 = time.perf_counter()
     card, record = verdict.decide(dossier, config)
+    dossier.timings_ms = {k: round(v * 1000, 1) for k, v in
+                          {"categorization": t1 - t0, "processing": t2 - t1, "verdict": time.perf_counter() - t2}.items()}
 
     inv = dossier.invoice_extracted
     card_json, record_json = json.dumps(card, ensure_ascii=False), json.dumps(record, ensure_ascii=False)
@@ -70,6 +76,16 @@ def run_case(case: dict, use_cache: bool = True) -> dict:
 def latest_verdict(conn, case_id: str):
     return conn.execute("SELECT * FROM audit_log WHERE case_id = ? ORDER BY audit_id DESC LIMIT 1",
                         (case_id,)).fetchone()
+
+
+def list_cases(limit: int = 20) -> list[dict]:
+    """Newest cases first, with their dashboard row (verdict columns are null until a case is run)."""
+    with db.connect() as conn:
+        return [dict(r) for r in conn.execute(
+            "SELECT c.case_id, c.filename, c.ingested_at, c.status, c.status_reason, d.decided_at, d.vendor_name,"
+            " d.invoice_number, d.grand_total, d.decision_state, d.override_state, d.routing_label, d.confidence,"
+            " d.band FROM cases c LEFT JOIN dashboard d ON d.case_id = c.case_id"
+            " WHERE c.case_id IS NOT NULL ORDER BY c.id DESC LIMIT ?", (limit,))]
 
 
 def get_case(case_id: str) -> dict | None:

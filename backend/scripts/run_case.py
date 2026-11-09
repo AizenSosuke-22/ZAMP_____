@@ -119,7 +119,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdfs", nargs="+", help="PDF paths (globs are expanded, for shells that don't)")
     ap.add_argument("--no-cache", action="store_true", help="force a fresh Gemini call")
-    ap.add_argument("--reset", action="store_true", help="wipe runtime DB + uploads first (keeps Gemini cache)")
+    ap.add_argument("--reset", action="store_true", help="wipe runtime DB, uploads + saved config first (keeps Gemini cache)")
     args = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     paths = [Path(p) for pat in args.pdfs for p in (sorted(glob.glob(pat)) if any(ch in pat for ch in "*?[") else [pat])]
@@ -127,7 +127,8 @@ def main():
     if args.reset:
         settings.DB_PATH.unlink(missing_ok=True)
         shutil.rmtree(settings.UPLOAD_DIR, ignore_errors=True)
-        print("Reset: runtime DB + uploads wiped (Gemini cache kept)")
+        settings.CONFIG_PATH.unlink(missing_ok=True)
+        print("Reset: runtime DB, uploads + saved Settings config wiped (Gemini cache kept)")
 
     manifest = json.loads((settings.DATA_DIR / "invoices" / "manifest.json").read_text(encoding="utf-8"))
     client = TestClient(app)

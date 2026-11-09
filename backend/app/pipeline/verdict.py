@@ -104,9 +104,9 @@ def _missing_names(d):
     return " and ".join(FIELD_NAMES.get(f, f.replace("_", " ")) for f in d.missing_required_fields)
 
 
-def _next_action(state: str, label: str | None, d: Dossier) -> str:
-    if state == "auto_approve":
-        return "No action needed; it is ready to post."
+def _next_action(state: str, label: str | None, d: Dossier, approver: str | None = None) -> str:
+    if state == "auto_approve":  # auto-approve doesn't bypass the DoA: the named approver still signs off
+        return f"Ready for {approver} sign-off." if approver else "Ready to post."
     if state == "approve_pending_review":
         return "Give it a quick look and confirm with one click."
     if label == "Reject — hard duplicate":
@@ -191,8 +191,8 @@ def decide(d: Dossier, config: dict) -> tuple[dict, dict]:
     state, policy_note = decide_state(d, conf["band"], config)
     labels = [(lb, op) for lb, applies, op in LABELS if applies(d, conf["band"])] if state not in APPROVE_STATES else []
     label = labels[0][0] if labels else None
-    next_action = _next_action(state, label, d)
     approver = _approver(inv.grand_total, config)
+    next_action = _next_action(state, label, d, approver)
     ops = [o for s in d.stages.values() for o in s.ops]
     policy_notes = [policy_note] if policy_note else []
 
@@ -205,7 +205,7 @@ def decide(d: Dossier, config: dict) -> tuple[dict, dict]:
         "notes": policy_notes + [o.reason for o in ops if o.result == "warn"],
         "data_confidence": DATA_CONFIDENCE[conf["band"]],
         "next_action": next_action,
-        "approver": approver if state in ("approve_pending_review", "flag") else None,
+        "approver": approver if state in ("auto_approve", "approve_pending_review", "flag") else None,
     }
     text, source, rejected = narrative.write(facts)
     failed = [{"op_id": o.op_id, "name": o.name, "result": o.result, "severity": o.severity,

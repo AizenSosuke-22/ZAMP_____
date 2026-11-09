@@ -1,26 +1,217 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* AP workbench: light, cool ground, white panels, navy bar, indigo for action/selection only.
+   Status hues appear only where they carry a decision. */
+@theme {
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
+
+  --color-ground: #f4f5f8;
+  --color-panel: #ffffff;
+  --color-sunk: #f8f9fb;
+  --color-line: #e3e6ec;
+  --color-line-strong: #cfd4dd;
+  --color-ink: #141a26;
+  --color-ink-2: #3f4859;
+  --color-ink-3: #5f6879;
+  --color-navy: #101a2e;
+  --color-navy-2: #1c2842;
+  --color-accent: #4338ca;
+  --color-accent-hover: #3730a3;
+  --color-accent-soft: #eef0ff;
+  --color-accent-line: #c7cdfb;
+
+  --color-ok: #166534;
+  --color-ok-bg: #effbf3;
+  --color-ok-line: #b5e6c5;
+  --color-ok-dot: #16a34a;
+
+  --color-pend: #6b4a0b;
+  --color-pend-bg: #fefbe6;
+  --color-pend-line: #f3e08a;
+  --color-pend-dot: #eab308;
+
+  --color-flag: #9a3412;
+  --color-flag-bg: #fff6ed;
+  --color-flag-line: #fbc897;
+  --color-flag-dot: #f59e0b;
+
+  --color-bad: #991b1b;
+  --color-bad-bg: #fef3f3;
+  --color-bad-line: #f8c6c6;
+  --color-bad-dot: #dc2626;
+
+  --color-fraud: #7f1d1d;
+
+  --color-idle: #556072;
+  --color-idle-bg: #f2f4f7;
+  --color-idle-line: #dfe3ea;
+  --color-idle-dot: #a3acba;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ground);
+}
+
+::selection {
+  background: #d9dcff;
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbars, themed from the palette */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+/* Range input: the price-tolerance slider */
+.tol-range {
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+  cursor: pointer;
+}
+.tol-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-accent) var(--fill), var(--color-line) var(--fill));
+}
+.tol-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-accent) var(--fill), var(--color-line) var(--fill));
+}
+.tol-range::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 1px 3px rgb(16 26 46 / 0.25);
+  transition: transform 150ms var(--ease-out-expo);
+}
+.tol-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--color-accent);
+}
+.tol-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.tol-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Motion: one vocabulary, exponential ease-out from an already-visible default */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateX(-6px);
+    filter: blur(2px);
+  }
+}
+@keyframes strike {
+  from {
+    background-size: 0% 1.5px;
+  }
+  to {
+    background-size: 100% 1.5px;
+  }
+}
+@keyframes changed {
+  0% {
+    box-shadow: 0 0 0 0 rgb(67 56 202 / 0.45);
+    background: #dfe2ff;
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgb(67 56 202 / 0);
+    background: var(--color-accent-soft);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+.anim-rise {
+  animation: rise 360ms var(--ease-out-expo) both;
+}
+.anim-badge-in {
+  animation: badge-in 700ms var(--ease-out-expo) both;
+}
+.anim-fade-in {
+  animation: fade-in 600ms var(--ease-out-expo) both;
+}
+.anim-changed {
+  animation: changed 1200ms var(--ease-out-expo) both;
+}
+.anim-spin {
+  animation: spin 900ms linear infinite;
+}
+.anim-toast {
+  animation: toast-in 320ms var(--ease-out-expo) both;
+}
+.struck {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 55%;
+  background-size: 100% 1.5px;
+  animation: strike 500ms 250ms var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
 }

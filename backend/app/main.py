@@ -1,24 +1,46 @@
-import json
-from pathlib import Path
-
 from fastapi import FastAPI, Form, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from google.genai import errors as genai_errors
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from app import exports
+from app import exports, settings
 from app.pipeline import collection, runner
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 
 app = FastAPI(title="Zamp Invoice AP")
+app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+                   allow_methods=["*"], allow_headers=["*"])
 
 
 @app.get("/health")
 def health():
-    config = json.loads((DATA_DIR / "config_default.json").read_text(encoding="utf-8"))
-    return {"status": "ok", "config_version": config["config_version"]}
+    return {"status": "ok", "config_version": settings.load_config()["config_version"]}
+
+
+@app.get("/api/config")
+def get_config():
+    return settings.load_config()
+
+
+class ConfigPatch(BaseModel):
+    price_pct: float = Field(ge=1.0, le=5.0)
+
+
+@app.patch("/api/config")
+def patch_config(body: ConfigPatch):
+    """Settings page: change the price tolerance. Every save is a new config_version (PRD §10)."""
+    config = settings.load_config()
+    config["tolerances"]["price_pct"] = round(body.price_pct, 1)
+    config["config_version"] += 1
+    settings.save_config(config)
+    return config
+
+
+@app.get("/api/cases")
+def list_cases(limit: int = 20):
+    return {"cases": runner.list_cases(max(1, min(limit, 200)))}
 
 
 @app.post("/api/invoices/upload", status_code=201)

@@ -12,6 +12,7 @@ Reason strings are plain English for the AP analyst (PRD §14b glossary: GSTIN =
 import difflib
 import json
 import re
+import time
 from dataclasses import dataclass
 from datetime import date
 
@@ -491,9 +492,11 @@ def run(dossier: Dossier, ctx: Context) -> Dossier:
             results.append(OpResult(**meta, result="skipped", severity="none", confidence=None, evidence={},
                                     reason="Turned off in Settings."))
         else:
+            t0 = time.perf_counter()
             result, reason, evidence, conf = fn(inv, ctx, dossier)
             results.append(OpResult(**meta, result=result, severity=_severity(op_id, tier, result),
-                                    confidence=conf, evidence=evidence, reason=reason))
+                                    confidence=conf, evidence=evidence, reason=reason,
+                                    elapsed_ms=round((time.perf_counter() - t0) * 1000, 2)))
             if result == "fail" and tier == "T1":
                 blocker = op_id
 

@@ -17,7 +17,7 @@ from pydantic import BaseModel
 
 from app import settings
 
-NARRATIVE_PROMPT_VERSION = "narrative-v2"  # v2: lead with decision + reason, not the invoice number
+NARRATIVE_PROMPT_VERSION = "narrative-v3"  # v3: pending = human confirms; never invent what checks did
 MAX_WORDS = 90
 
 SYSTEM_PROMPT = """\
@@ -39,6 +39,12 @@ For auto_approve, two sentences are enough.
 Rules:
 - Use only FACTS. No number, date, name or cause that isn't in FACTS. Don't guess why the vendor did
   anything.
+- Never describe which checks ran, didn't run, or were limited. Every check runs on every invoice. If a
+  required field is missing, say only that the field is missing from the invoice - nothing about what
+  that prevented.
+- approve_pending_review: we have NOT approved it - the analyst approves it. Never write "we have
+  approved", "approved pending" or "approved ... pending review". Frame it as: the invoice is ready for
+  your one-click confirmation, and why (FACTS.notes).
 - Plain English. Never use the term on the left; use the wording on the right:
     GSTIN                 -> vendor's tax ID (ours: "our tax ID")
     HSN / SAC code        -> product category code
@@ -59,7 +65,7 @@ BANNED = re.compile(r"\b(GSTINs?|HSN|SAC|IGST|CGST|SGST|POs?(?!-\d)|dossier|Op \
 NUM_RE = re.compile(r"\d[\d,]*(?:\.\d+)?")
 
 HEADLINE = {
-    "auto_approve": "Every check passed and this invoice is ready to post.",
+    "auto_approve": "All checks passed.",
     "approve_pending_review": "Every check passed, but this invoice needs a one-click confirmation before it is posted.",
     "flag": "This invoice needs your review before anything is paid.",
     "reject": "This invoice should not be paid.",
@@ -110,9 +116,19 @@ def problems(text: str, facts: dict) -> list[str]:
     return out
 
 
+def _match_sentence(facts: dict) -> str:
+    """Auto-approve detail: 'Invoice X from V matches purchase order P.' (only the parts FACTS has)."""
+    if not (facts.get("invoice_number") and facts.get("vendor")):
+        return ""
+    po = facts.get("purchase_order")
+    return f"Invoice {facts['invoice_number']} from {facts['vendor']}" + (
+        f" matches purchase order {po}." if po else " is clean.")
+
+
 def template(facts: dict) -> str:
     detail = (facts["issues"][0]["what_we_found"] if facts["issues"]
-              else facts["notes"][0] if facts["notes"] else "")
+              else facts["notes"][0] if facts["notes"]
+              else _match_sentence(facts) if facts["decision"] == "auto_approve" else "")
     return " ".join(s for s in (HEADLINE[facts["decision"]], detail, facts["next_action"]) if s)
 
 
@@ -123,6 +139,8 @@ def write(facts: dict) -> tuple[str, str, str | None]:
     try:
         if path.exists():
             text = json.loads(path.read_text(encoding="utf-8"))["narrative"]
+        elif settings.NARRATIVE_CACHE_ONLY:
+            return template(facts), "template", "cache-only mode: no cached narrative for these facts"
         else:
             text = call_gemini(facts)
             settings.CACHE_DIR.mkdir(parents=True, exist_ok=True)

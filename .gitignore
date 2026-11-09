@@ -10,6 +10,7 @@ __pycache__/
 # Runtime state (SQLite db, uploaded files)
 backend/data/*.db
 backend/data/uploads/
+backend/data/config.json
 
 # Gemini extraction cache (rebuildable; pre-warm before demo)
 backend/data/cache/
