@@ -56,6 +56,13 @@ Open items:
 - **Design review pass + `DESIGN.md` = V2 item** (user decision 2026-11-09: skipped to spend the time on rehearsal + recording).
 - PO reservation counts every earlier non-blocked case linked to the PO; could be refined to approved / pending only.
 
+## Current cached narratives (`narrative-v3`, Gemini, cached 2026-11-09)
+
+Shown verbatim on the Decision Card in the demo (cache-only mode). Regenerating needs `NARRATIVE_CACHE_ONLY=0`, a prompt-version bump, and all 10 fixtures run in order plus #10 at ±3%.
+
+- **#3 scanned (Approve pending review):** "This invoice for Rs 89,090.00 from Sahyadri Facility Management Pvt Ltd is ready for your one-click confirmation. Because it was read from a scan, our policy requires a brief check even though every check passed against purchase order PO-2026-0377. Give it a quick look and confirm with one click."
+- **#9 missing invoice number (Flagged for review):** "We flagged this Rs 1,18,000.00 document for purchase order PO-2026-0391 because the invoice doesn't show an invoice number. Please contact Kaveri Infotech Services Pvt Ltd to request a corrected invoice that includes their invoice number."
+
 ## Cut log (demo + interview answer sheet)
 
 - **TDS + ITC** — detection, config and Settings UI scoped out (see Decisions locked).
