@@ -10,8 +10,13 @@ from app.pipeline import collection, runner
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 
 app = FastAPI(title="Zamp Invoice AP")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-                   allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://zamp-kappa.vercel.app", "http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origin_regex=r"https://[a-z0-9-]+\.vercel\.app",  # Vercel preview deployments
+    allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/health")

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ApiError, api, uploadInvoice } from "../_lib/api";
+import { API_BASE, ApiError, api, uploadInvoice } from "../_lib/api";
 import type { CaseRow, Config, RunView } from "../_lib/types";
 import { DecisionCard } from "./DecisionCard";
 import { LiveRun, opsOf, stepCount, type CollectionMeta, type Phase } from "./LiveRun";
@@ -232,7 +232,7 @@ export default function Workbench() {
       {online === false && (
         <div className="border-b border-bad-line bg-bad-bg">
           <p className="mx-auto max-w-[1440px] px-4 py-2.5 text-[13px] text-bad sm:px-6">
-            Can&rsquo;t reach the backend at localhost:8000. Start it with{" "}
+            Can&rsquo;t reach the backend at {API_BASE}. Start it with{" "}
             <code className="num rounded bg-panel px-1">uvicorn app.main:app --reload</code> in <code className="num">backend/</code>. Retrying every few seconds.
           </p>
         </div>
