@@ -1,0 +1,19 @@
+# API
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.33   # file uploads
+# Extraction
+pymupdf==2.1               # PDF text layer, encryption detection, page -> image for OCR
+google-genai==2.34.0       # Gemini — LLM extraction / classification / narrative
+python-dotenv==1.2.4
+# OCR (offline; models ship inside the rapidocr wheel)
+rapidocr==3.10.0
+onnxruntime==1.31.1         # rapidocr 3 does not declare its inference engine
+opencv-python-headless==5.0.0.93
+numpy==2.5.4                # used directly for OCR image arrays
+# Fixtures (scripts/generate_fixtures.py)
+reportlab==5.1.0
+pillow==13.0.0
+# Tests
+pytest==9.2.0
+httpx==0.28.1              # required by FastAPI TestClient
